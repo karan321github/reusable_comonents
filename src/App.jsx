@@ -3,12 +3,18 @@ import DragAndDrop from "./Components/DragAndDrop";
 import Notification from "./Components/Notification";
 import Card from "./Components/Card";
 import ExportData from "./Components/ExportData";
+import { useToast } from "./Context/ToastProvider";
+import Video from "./Components/VIdeo";
+import AudioPlayer from "./Components/AudioPlayer";
 
 const App = () => {
   const handleDrop = (acceptedFiles, rejectedFiles) => {
     console.log("Accepted files", acceptedFiles);
     console.log("Rejected files", rejectedFiles);
   };
+
+  const showToast = useToast();
+  console.log(showToast);
 
   const data = [
     { name: "John", age: 28, job: "Developer" },
@@ -57,7 +63,7 @@ const App = () => {
 
   return (
     <div className="p-container">
-      <DragAndDrop accept={[".jpg", ".csv", ".mp4"]} />
+      {/* <DragAndDrop accept={[".jpg", ".mp4"]} />
       <Notification
         duration={1000}
         message="Your have a notification"
@@ -67,12 +73,26 @@ const App = () => {
 
       <Card
         imageUrl="./tx_logo.png"
-        title="Honey Arora"
+        title="Karan"
         content="Hi how are you and what are you doing"
         customStyles={myCustomStyles}
-      ></Card>
+      ></Card> */}
 
-      <ExportData data={data} fileName={"myFile"} allowedFormats={['csv']} />
+      <ExportData data={data} fileName={"myFile"} allowedFormats={["xlsx"]} />
+
+      <button onClick={showToast("This is success message!", "success")}>
+        Show toast
+      </button>
+
+      <Video
+        isYouTube={true}
+        controls={false}
+        light={"./tx_logo.png"}
+        width={"500px"}
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      />
+
+      <AudioPlayer src="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" />
 
       <style jsx>{`
         .p-container {
