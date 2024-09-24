@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaTimes, FaExclamationCircle, FaRegFileImage } from "react-icons/fa";
+import { showToast } from "./Toast";
 
 const DragAndDrop = ({
   onDrop,
@@ -10,21 +11,22 @@ const DragAndDrop = ({
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
 
-
   const acceptConfig = useMemo(() => {
     if (accept.length === 0) return {}; // Accept all files if no types specified
     return accept.reduce((acc, type) => {
-      const mimeType = type.startsWith('.') ? `application/${type.slice(1)}` : `application/${type}`;
+      const mimeType = type.startsWith(".")
+        ? `application/${type.slice(1)}`
+        : `application/${type}`;
       acc[mimeType] = [type];
       return acc;
     }, {});
   }, [accept]);
 
-
   const onDropCallback = useCallback(
     (acceptedFiles, rejectedFiles) => {
       if (acceptedFiles.length > 0) {
         setFile(acceptedFiles[0]);
+        showToast("File uploaded successfully", "success");
         setError(null);
       }
       if (rejectedFiles.length > 0) {
@@ -39,12 +41,13 @@ const DragAndDrop = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: onDropCallback,
-    accept:acceptConfig,
+    accept: acceptConfig,
     maxSize,
   });
 
   const removeFile = () => {
     setFile(null);
+    showToast("file removed success", "success");
   };
   console.log(accept);
   return (
@@ -75,8 +78,7 @@ const DragAndDrop = ({
             ? "Drop the file here"
             : "Drag 'n' drop a file here, or click to select"}
         </p>
-        <p className="dropzone-info">
-        </p>
+        <p className="dropzone-info"></p>
       </div>
 
       {error && (

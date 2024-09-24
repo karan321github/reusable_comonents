@@ -3,19 +3,13 @@ import DragAndDrop from "./Components/DragAndDrop";
 import Notification from "./Components/Notification";
 import Card from "./Components/Card";
 import ExportData from "./Components/ExportData";
-import { useToast } from "./Context/ToastProvider";
+
 import Video from "./Components/VIdeo";
 import AudioPlayer from "./Components/AudioPlayer";
+import Toast, { showToast } from "./Components/Toast";
+import SomeComponent from "./Components/SomeComponent";
 
 const App = () => {
-  const handleDrop = (acceptedFiles, rejectedFiles) => {
-    console.log("Accepted files", acceptedFiles);
-    console.log("Rejected files", rejectedFiles);
-  };
-
-  const showToast = useToast();
-  console.log(showToast);
-
   const data = [
     { name: "John", age: 28, job: "Developer" },
     { name: "Jane", age: 32, job: "Designer" },
@@ -46,6 +40,9 @@ const App = () => {
     { name: "Yara", age: 35, job: "PR Specialist" },
     { name: "Zane", age: 30, job: "Cloud Architect" },
   ];
+  const handleClick = () => {
+    showToast("This is showing message", "error");
+  };
 
   const myCustomStyles = {
     card: {
@@ -63,7 +60,7 @@ const App = () => {
 
   return (
     <div className="p-container">
-      {/* <DragAndDrop accept={[".jpg", ".mp4"]} />
+      <DragAndDrop accept={[".jpg", ".mp4"]} />
       <Notification
         duration={1000}
         message="Your have a notification"
@@ -76,13 +73,13 @@ const App = () => {
         title="Karan"
         content="Hi how are you and what are you doing"
         customStyles={myCustomStyles}
-      ></Card> */}
-
+      ></Card>
+      <Toast />
       <ExportData data={data} fileName={"myFile"} allowedFormats={["xlsx"]} />
 
-      <button onClick={showToast("This is success message!", "success")}>
-        Show toast
-      </button>
+      <button onClick={handleClick}>Show toast</button>
+
+      <SomeComponent />
 
       <Video
         isYouTube={true}
@@ -96,7 +93,9 @@ const App = () => {
 
       <style jsx>{`
         .p-container {
-          display: flex;
+          display: grid;
+          grid-template-columns: 2fr;
+          grid-gap: 20px;
           align-items: center;
           justify-content: center;
         }
