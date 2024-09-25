@@ -3,7 +3,7 @@ import { showToast } from "./Toast";
 
 function SomeComponent() {
   const handleClick = () => {
-    showToast("Hi MR karan how are you", "info");
+    showToast("Hi notification is showing", "info");
   };
   return (
     <div>
